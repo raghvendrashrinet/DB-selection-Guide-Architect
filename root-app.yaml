@@ -1,0 +1,13 @@
+﻿# The 'App-of-Apps' ultimate bootstrap entrypoint
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app
+spec:
+  source:
+    repoURL: https://github.com/your-org/your-repo
+    path: argocd/apps
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default

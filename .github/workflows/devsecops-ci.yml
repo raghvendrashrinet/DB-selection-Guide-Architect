@@ -1,0 +1,14 @@
+﻿# DevSecOps CI Pipelines (Trivy, Terrascan, Helm lint)
+name: DevSecOps CI
+on: [push, pull_request]
+jobs:
+  security-scan:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Trivy
+        run: echo 'Trivy scan placeholder'
+      - name: Run Terrascan
+        run: echo 'Terrascan scan placeholder'
+      - name: Helm Lint
+        run: echo 'Helm lint placeholder'
