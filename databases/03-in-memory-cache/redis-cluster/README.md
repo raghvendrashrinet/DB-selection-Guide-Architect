@@ -51,10 +51,31 @@ To simulate a real production architecture, we will build a project that bridges
   #### We will use Node.js with Express, the official redis client, and mongoose for MongoDB.
   ##### Step 1: Project Initialization & Dependencies
  ```
+sudo apt update
+sudo apt install -y nodejs npm
+```
+Check Installation
+```
+  node -v
+  npm -v
+```
+```
 npm init -y
 npm install express mongoose redis dotenv
 npm install --save-dev nodemon
 ```
+##### Folder Structure
+Create this file inside your Node.js project folder structure like this:
+
+project-root/
+│
+├── models/
+│   └── Product.js
+│
+├── node_modules/
+├── package.json
+├── app.js
+└── .env
 Create a .env file in the root of your directory to hold your connection strings:
 ```
 PORT=3000
