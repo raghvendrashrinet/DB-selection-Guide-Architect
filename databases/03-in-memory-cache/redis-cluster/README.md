@@ -66,16 +66,23 @@ npm install --save-dev nodemon
 ```
 ##### Folder Structure
 Create this file inside your Node.js project folder structure like this:
-
-project-root/
+```
+project/
+│
+├── middleware/
+│   └── rateLimiter.js
+│
+├── routes/
+│   └── productRoutes.js
 │
 ├── models/
 │   └── Product.js
 │
-├── node_modules/
-├── package.json
-├── app.js
-└── .env
+├── db.js
+├── server.js
+├── .env
+└── package.json
+```
 Create a .env file in the root of your directory to hold your connection strings:
 ```
 PORT=3000
