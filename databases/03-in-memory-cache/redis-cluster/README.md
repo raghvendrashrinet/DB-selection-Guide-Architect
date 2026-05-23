@@ -245,9 +245,68 @@ connectDBs().then(() => {
     });
 });
 ```
+##### Startup applications
+Need to start the backend application server first so it can listen for those requests, and you also need to make sure your background databases (MongoDB and Redis) are actively running on your machine.
+
+Here is the exact sequence to get everything running and verified:
+
+##### Step 1: Start your Databases
+Before launching the code, both database engines must be running in the background. Open a terminal and start them (or ensure they are running if you use Docker/services):
+
+- For Redis: Run redis-server
+- For MongoDB: Run mongod (or ensure your local Mongo service is active)
+
+##### Step 2: Run Your Application Code
+Open a terminal inside your 03-in-memory-cache project directory where your server.js and package.json live, and start your Node.js application:
+```
+# Using nodemon (if configured in package.json scripts)
+npm run dev
+
+# Or run it directly with Node
+node server.js
+```
+
+You should see these success messages in your terminal terminal console:
+
+🔹 MongoDB Connected Successfully
+🔸 Redis Connected Successfully
+🚀 Server running on port 3000
 ##### Step 6: Testing the Architecture
-To verify your system is acting correctly, execute the following workflow:
-1. Seed data: Insert a dummy product document directly into your MongoDB collection to generate a real _id.
-2. Execute First Request: Call GET http://localhost:3000/api/products/<id>. You will notice the response states source: "MongoDB (Cache Miss)".
-3. Execute Second Request: Fire the exact same request immediately. The source will toggle to source: "Redis Cache (Cache Hit)", rendering instantly.
-4. Test Rate Limiter: Fire the API endpoint continuously more than 10 times in under a minute. The system will cleanly swap your payloads for a 429 Too Many Requests status payload.
+Step 3: Run the Verification Steps
+Now that the application is alive, follow the verification workflow using a tool like Postman, Bruno, or curl in a separate terminal window:
+
+1. Seed Data (Get a Valid ID)
+Since our endpoint expects a MongoDB _id, you need at least one product in your database. You can quickly insert a document using MongoDB Compass or the Mongo Shell (mongosh):
+```
+use ecommerce;
+db.products.insertOne({
+  name: "Wireless Mouse",
+  description: "Ergonomic 2.4GHz mouse",
+  price: 29.99,
+  stock: 100
+});
+```
+Copy the generated _id string from that inserted document (e.g., 65f1a2b3c4d5e6f7a8b9c0d1).
+
+2. Execute First Request (Cache Miss)
+Send a GET request to your server using the copied ID:
+```
+curl http://localhost:3000/api/products/YOUR_COPIED_ID
+```
+- Expected Response: You will see the product JSON data, and the payload will include "source": "MongoDB (Cache Miss)".
+
+- What happened behind the scenes: The app checked Redis, found nothing, read it from MongoDB, and saved it to Redis.
+
+3. Execute Second Request (Cache Hit)
+Fire the exact same request immediately:
+```
+curl http://localhost:3000/api/products/YOUR_COPIED_ID
+```
+- Expected Response: The data returns instantly, but this time it includes "source": "Redis Cache (Cache Hit)".
+
+- What happened behind the scenes: The app found the data in Redis RAM and completely skipped querying MongoDB.
+
+4. Test the Rate Limiter
+Spam that same terminal command or press "Send" in Postman rapidly more than 10 times within one minute.
+
+Expected Response: On the 11th request, the server will block you and return a 429 Too Many Requests status code with your custom error message.
