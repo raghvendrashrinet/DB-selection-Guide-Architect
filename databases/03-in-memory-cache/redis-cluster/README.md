@@ -46,7 +46,7 @@ To simulate a real production architecture, we will build a project that bridges
 - How to configure connection pools for both MongoDB and Redis simultaneously.
 - How to handle serialization (converting database objects to JSON strings for Redis) and deserialization.
 - How to manage cache invalidation (updating or deleting cache when product details change in MongoDB so users don't see stale data).
-
+![System Architecture Diagram](SystemCallFlow.png)
 
   #### We will use Node.js with Express, the official redis client, and mongoose for MongoDB.
 
@@ -384,3 +384,4 @@ curl http://localhost:3000/api/products/YOUR_COPIED_ID
 Spam that same terminal command or press "Send" in Postman rapidly more than 10 times within one minute.
 
 Expected Response: On the 11th request, the server will block you and return a 429 Too Many Requests status code with your custom error message.
+
