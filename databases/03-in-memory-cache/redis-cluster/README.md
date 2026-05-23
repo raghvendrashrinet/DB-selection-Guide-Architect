@@ -252,10 +252,79 @@ Here is the exact sequence to get everything running and verified:
 
 ##### Step 1: Start your Databases
 Before launching the code, both database engines must be running in the background. Open a terminal and start them (or ensure they are running if you use Docker/services):
+#### Setup Docker
 
-- For Redis: Run redis-server
-- For MongoDB: Run mongod (or ensure your local Mongo service is active)
+Step 1: Install Docker
+Open a clean terminal window and run these commands to update your packages and install Docker:
+```
+# 1. Update your local package index
+sudo apt update
 
+# 2. Install necessary prerequisite packages
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+
+# 3. Add Docker’s official GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+# 4. Set up the stable Docker repository
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# 5. Update packages again and install Docker Engine
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io
+```
+Step 2: Manage Docker as a Non-Root User (Convenience Step)
+By default, running docker commands requires sudo. To fix this so you can just type docker compose up without entering your password every time, run:
+```
+# 1. Create the docker group (it might already exist)
+sudo groupadd docker
+
+# 2. Add your current user to the docker group
+sudo usermod -aG docker $USER
+```
+Step 3: Verify the Installation
+To make sure Docker is working correctly, run the hello-world image:
+```
+docker run hello-world
+```
+Step 4: Run your Project Databases
+Now you are completely ready to use Docker Compose!
+
+Create that docker-compose.yml file we discussed in the root of your 03-in-memory-cache directory.
+
+Open your terminal in that directory and spin up your databases:
+##### Setup redis and mongodb
+Step 1: Create a docker-compose.yml File
+In the root of your 03-in-memory-cache directory, create a new file named docker-compose.yml and add the following configuration:
+```
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb_prod
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  redis_data:
+  mongo_data:
+```
+Step 2: Spin Up Both Databases
+Instead of running separate terminal setup steps for each database, open a single terminal window and run:
+```
+docker compose up -d
+```
 ##### Step 2: Run Your Application Code
 Open a terminal inside your 03-in-memory-cache project directory where your server.js and package.json live, and start your Node.js application:
 ```
