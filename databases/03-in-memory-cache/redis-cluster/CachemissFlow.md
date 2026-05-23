@@ -30,4 +30,4 @@ The application itself is the coordinator. MongoDB does not talk directly to Red
 6. The Cache Populate: Your backend application takes that data, stringifies it, and saves a copy inside Redis with a Time-To-Live (TTL) so that the next request will be a cache hit.
 7. The Final Delivery: Your backend application formats the data into a JSON response and sends it back out to the user's browser.
 
-8. 💡 Architect Note: Neither database knows the other one exists. MongoDB is completely unaware that Redis is caching its data, and Redis is completely unaware that the data originally came from MongoDB. Your backend application acts as the "brain" or the bridge connecting them together.
+#### 💡 Architect Note: Neither database knows the other one exists. MongoDB is completely unaware that Redis is caching its data, and Redis is completely unaware that the data originally came from MongoDB. Your backend application acts as the "brain" or the bridge connecting them together.
