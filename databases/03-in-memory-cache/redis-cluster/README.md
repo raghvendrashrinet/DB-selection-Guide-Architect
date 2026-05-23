@@ -49,21 +49,7 @@ To simulate a real production architecture, we will build a project that bridges
 
 
   #### We will use Node.js with Express, the official redis client, and mongoose for MongoDB.
-  ##### Step 1: Project Initialization & Dependencies
- ```
-sudo apt update
-sudo apt install -y nodejs npm
-```
-Check Installation
-```
-  node -v
-  npm -v
-```
-```
-npm init -y
-npm install express mongoose redis dotenv
-npm install --save-dev nodemon
-```
+
 ##### Folder Structure
 Create this file inside your Node.js project folder structure like this:
 ```
@@ -293,8 +279,19 @@ Now you are completely ready to use Docker Compose!
 Create that docker-compose.yml file we discussed in the root of your 03-in-memory-cache directory.
 
 Open your terminal in that directory and spin up your databases:
+##### Setup Node.js
+```
+### Step 1: Install Modern Node.js Engine (v20+)
+Ensure you have the correct Node.js runtime to support modern syntax engines:
+```bash
+curl -fsSL [https://deb.nodesource.com/setup_20.x](https://deb.nodesource.com/setup_20.x) | sudo -E bash -
+sudo apt remove --purge -y libnode-dev && sudo apt --fix-broken install -y
+sudo apt install -y nodejs
+  npm -v
+```
+
 ##### Setup redis and mongodb
-Step 1: Create a docker-compose.yml File
+Step 2: Create a docker-compose.yml File
 In the root of your 03-in-memory-cache directory, create a new file named docker-compose.yml and add the following configuration:
 ```
 version: '3.8'
@@ -324,6 +321,14 @@ Step 2: Spin Up Both Databases
 Instead of running separate terminal setup steps for each database, open a single terminal window and run:
 ```
 docker compose up -d
+```
+
+##### Step 3: Project Initialization & Dependencies
+Initialize your Node.js environment and install the required application drivers:
+```
+npm init -y
+npm install express mongoose redis dotenv
+npm install --save-dev nodemon
 ```
 ##### Step 2: Run Your Application Code
 Open a terminal inside your 03-in-memory-cache project directory where your server.js and package.json live, and start your Node.js application:
