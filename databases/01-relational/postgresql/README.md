@@ -6,7 +6,7 @@ You will use PostgreSQL (the industry-standard relational database) running insi
 - Foreign Keys & Relationships: You'll enforce integrity so a post cannot exist without a valid user_id (One-to-Many), and implement a join table for something like post tags (Many-to-Many).
 - SQL JOIN Queries: Instead of nesting everything in one big document (like MongoDB), you'll write structured queries using INNER JOIN or LEFT JOIN to stitch your data back together on the fly.
 
-```
+```mermaid
 erDiagram
     USERS {
         int id PK
