@@ -63,7 +63,11 @@ volumes:
   pg_data:
 ```
 #### 2. Create your Node.js configuration:
-Run npm init -y to create your base package file, then open it and make sure it includes the "type": "module" configuration so you can use modern ES imports:
+Run npm init to create base package file,
+```
+npm init -y
+```
+then open it and make sure it includes the "type": "module" configuration so you can use modern ES imports:
 ```
 {
   "name": "relational-postgres",
