@@ -34,10 +34,7 @@ erDiagram
     POSTS ||--o{ COMMENTS : "has"
 ```
    #### 🛠️ Step 1: Prepare Your Workspace
-Since you are already in your terminal, let's step into the correct directory for this project:
-
-
- Move out of the in-memory cache directory and into the relational folder
+the relational folder
 cd ../01-relational
 
 #### 📦 Step 2: Create Your Stack Files
@@ -66,7 +63,7 @@ volumes:
   pg_data:
 ```
 #### 2. Create your Node.js configuration:
-Run npm init -y to create your base package file, then open it (nano package.json) and make sure it includes the "type": "module" configuration so you can use modern ES imports:
+Run npm init -y to create your base package file, then open it and make sure it includes the "type": "module" configuration so you can use modern ES imports:
 ```
 {
   "name": "relational-postgres",
